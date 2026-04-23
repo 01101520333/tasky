@@ -1,7 +1,9 @@
 import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:tasky/core/utils/validator_app.dart';
+import 'package:tasky/features/auth/screens/register_screen.dart';
 import 'package:tasky/features/auth/widgets/matreial_button_widget.dart';
+import 'package:tasky/features/auth/widgets/state_user_auth.dart';
 import 'package:tasky/features/auth/widgets/text_form_field_widget.dart';
 
 class LogInScreen extends StatelessWidget {
@@ -97,7 +99,13 @@ class LogInScreen extends StatelessWidget {
               label: "Login",
             ),
             SizedBox(height: 14),
-
+            StateUserAuth(
+              onTap: () {
+                Navigator.of(context).pushNamed(RegisterScreen.routeName);
+              },
+              title: "New member ?",
+              subTitle: 'Register now',
+            ),
             SizedBox(height: 10),
           ],
         ),
@@ -111,11 +119,3 @@ class LogInScreen extends StatelessWidget {
     required BuildContext context,
   }) async {}
 }
-
-  // StateUserAuth(
-  //             onTap: () {
-  //               Navigator.of(context).pushNamed(RegisterScreen.routeName);
-  //             },
-  //             title: "New member ?",
-  //             subTitle: 'Register now',
-  //           ),

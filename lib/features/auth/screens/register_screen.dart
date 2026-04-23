@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:tasky/core/utils/validator_app.dart';
 import 'package:tasky/features/auth/widgets/matreial_button_widget.dart';
+import 'package:tasky/features/auth/widgets/state_user_auth.dart';
 import 'package:tasky/features/auth/widgets/text_form_field_widget.dart';
 
 class RegisterScreen extends StatelessWidget {
@@ -144,6 +145,15 @@ class RegisterScreen extends StatelessWidget {
             ),
             SizedBox(height: 14),
 
+            StateUserAuth(
+              onTap: () {
+                Navigator.of(context).pop();
+              },
+              title: "Already a member ?",
+              subTitle: 'Login now',
+            ),
+            SizedBox(height: 10),
+
             // Already a member? Login in
           ],
         ),
@@ -157,13 +167,3 @@ class RegisterScreen extends StatelessWidget {
     required BuildContext context,
   }) async {}
 }
-
-
-// StateUserAuth(
-//               onTap: () {
-//                 Navigator.of(context).pop();
-//               },
-//               title: "Already a member ?",
-//               subTitle: 'Login now',
-//             ),
-//             SizedBox(height: 10),

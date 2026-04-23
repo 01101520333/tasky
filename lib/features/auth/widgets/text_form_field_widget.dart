@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:tasky/core/utils/colors_app.dart';
 
 class TextFormFieldWidget extends StatelessWidget {
-  TextFormFieldWidget({
+  const TextFormFieldWidget({
     super.key,
     this.controller,
     required this.hintText,
@@ -11,7 +12,7 @@ class TextFormFieldWidget extends StatelessWidget {
   final TextEditingController? controller;
   final String hintText;
   final void Function()? onTap;
-  String? Function(String?)? validator;
+  final String? Function(String?)? validator;
 
   @override
   Widget build(BuildContext context) {
@@ -26,7 +27,7 @@ class TextFormFieldWidget extends StatelessWidget {
         hint: Text(hintText),
         border: OutlineInputBorder(borderRadius: BorderRadius.circular(6)),
         focusedBorder: OutlineInputBorder(
-          borderSide: BorderSide(color: Color(0xffFF3951)),
+          borderSide: BorderSide(color: ColorsApp.primaryColor),
           borderRadius: BorderRadius.circular(6),
         ),
       ),
