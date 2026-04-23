@@ -63,30 +63,34 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
 
             SizedBox(height: 50),
 
-            Container(
-              margin: EdgeInsets.symmetric(horizontal: 40),
-              width: double.infinity,
-              child: Column(
-                children: [
-                  Text(
-                    onboardingData[index].title,
-                    style: TextStyle(
-                      fontSize: 32,
-                      fontWeight: .bold,
-                      color: ColorsApp.textColor,
+            CustonAnimatedWidget(
+              index: index,
+              delay: (index + 1) * 100,
+              child: Container(
+                margin: EdgeInsets.symmetric(horizontal: 40),
+                width: double.infinity,
+                child: Column(
+                  children: [
+                    Text(
+                      onboardingData[index].title,
+                      style: TextStyle(
+                        fontSize: 32,
+                        fontWeight: .bold,
+                        color: ColorsApp.textColor,
+                      ),
                     ),
-                  ),
-                  SizedBox(height: 20),
-                  Text(
-                    onboardingData[index].descrabtion,
-                    textAlign: .center,
-                    style: TextStyle(
-                      fontSize: 16,
-                      fontWeight: .w500,
-                      color: ColorsApp.textColor,
+                    SizedBox(height: 20),
+                    Text(
+                      onboardingData[index].descrabtion,
+                      textAlign: .center,
+                      style: TextStyle(
+                        fontSize: 16,
+                        fontWeight: .w500,
+                        color: ColorsApp.textColor,
+                      ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             ),
 
