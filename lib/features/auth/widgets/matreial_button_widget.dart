@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:tasky/core/utils/colors_app.dart';
 
 class MaterialButtonWidget extends StatelessWidget {
-  MaterialButtonWidget({super.key, required this.label, this.onPressed});
-  String label;
-  void Function()? onPressed;
+  const MaterialButtonWidget({super.key, required this.label, this.onPressed});
+  final String label;
+  final void Function()? onPressed;
 
   @override
   Widget build(BuildContext context) {

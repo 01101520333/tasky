@@ -4,7 +4,6 @@ import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 import 'package:tasky/core/utils/assets_icons.dart';
 import 'package:tasky/core/utils/colors_app.dart';
-import 'package:tasky/features/auth/screens/log_in_screen.dart';
 import 'package:tasky/features/onboarding/screens/onboarding_screen.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -22,7 +21,7 @@ class _SplashScreenState extends State<SplashScreen> {
   void initState() {
     super.initState();
     Timer(
-      Duration(seconds: 2),
+      Duration(seconds: 3),
       () => Navigator.of(
         context,
       ).pushReplacementNamed(OnboardingScreen.routeName),
