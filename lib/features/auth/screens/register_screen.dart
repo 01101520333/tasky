@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:tasky/core/utils/validator_app.dart';
+import 'package:tasky/core/widgets/app_dialog.dart';
+import 'package:tasky/features/auth/data/firebase/app_firebase_auth.dart';
+import 'package:tasky/features/auth/data/model/app_user.dart';
 import 'package:tasky/features/auth/widgets/matreial_button_widget.dart';
 import 'package:tasky/features/auth/widgets/state_user_auth.dart';
 import 'package:tasky/features/auth/widgets/text_form_field_widget.dart';
@@ -136,8 +139,12 @@ class RegisterScreen extends StatelessWidget {
                 if (formKey.currentState!.validate()) {
                   // calling function register
                   register(
-                    email: email.text,
-                    password: password.text,
+                    user: AppUser(
+                      name: name.text,
+                      phone: phone.text,
+                      password: password.text,
+                      email: email.text,
+                    ),
                     context: context,
                   );
                 }
@@ -161,9 +168,20 @@ class RegisterScreen extends StatelessWidget {
     );
   }
 
-  void register({
-    required String email,
-    required String password,
-    required BuildContext context,
-  }) async {}
+  void register({required AppUser user, required BuildContext context}) async {
+    AppDialog.showLoadingUi(context);
+
+    AppUser? resulte = await AppFirebaseAuth.register(user: user);
+    if (!context.mounted) return;
+    Navigator.of(context).pop();
+
+    if (resulte != null) {
+      Navigator.of(context).pop();
+    } else {
+      AppDialog.showErrorUi(
+        context: context,
+        error: "from firebase Auth , please try agine",
+      );
+    }
+  }
 }
