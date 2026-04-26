@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:tasky/core/network/resulet_firebase.dart';
 import 'package:tasky/core/utils/validator_app.dart';
 import 'package:tasky/core/widgets/app_dialog.dart';
 import 'package:tasky/features/auth/data/firebase/app_firebase_auth.dart';
@@ -121,19 +122,25 @@ class LogInScreen extends StatelessWidget {
     required BuildContext context,
   }) async {
     AppDialog.showLoadingUi(context);
-    bool resulte = await AppFirebaseAuth.logIn(
+    ResuletFirebase<bool> resulte = await AppFirebaseAuth.logIn(
       email: email,
       password: password,
     );
     if (!context.mounted) return;
     Navigator.of(context).pop();
-    if (resulte) {
-      Navigator.of(context).pushReplacementNamed(HomeScreen.routeName);
-    } else {
-      AppDialog.showErrorUi(
-        context: context,
-        error: "from firebase Auth , please try agine",
-      );
+    switch (resulte) {
+      case Success<bool>():
+        Navigator.of(context).pushReplacementNamed(HomeScreen.routeName);
+      case Error<bool>():
+        AppDialog.showErrorUi(context: context, error: resulte.error);
     }
+    // if (resulte) {
+    // Navigator.of(context).pushReplacementNamed(HomeScreen.routeName);
+    // } else {
+    // AppDialog.showErrorUi(
+    //   context: context,
+    //   error: "from firebase Auth , please try agine",
+    //   );
+    // }
   }
 }
