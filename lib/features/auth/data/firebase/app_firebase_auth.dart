@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:tasky/core/network/resulet_firebase.dart';
 import 'package:tasky/features/auth/data/model/app_user.dart';
 
 abstract class AppFirebaseAuth {
@@ -11,35 +12,37 @@ abstract class AppFirebaseAuth {
             AppUser.fromJson(snapshot.data()!),
         toFirestore: (value, options) => value.toJson(),
       );
-  static Future<AppUser?> addUser(AppUser user) async {
+  static Future<ResuletFirebase<AppUser>> addUser(AppUser user) async {
     try {
       await _collection.doc(user.id).set(user);
-      return user;
+      return Success(user);
     } catch (e) {
-      return null;
+      return Error(e.toString());
     }
   }
 
-  static Future<AppUser?> updateUser(AppUser user) async {
+  static Future<ResuletFirebase<AppUser>> updateUser(AppUser user) async {
     await _collection.doc(user.id).update(user.toJson());
     try {
       await _collection.doc(user.id).update(user.toJson());
-      return user;
+      return Success(user);
     } catch (e) {
-      return null;
+      return Error(e.toString());
     }
   }
 
-  static Future<bool> deleteUser(String id) async {
+  static Future<ResuletFirebase<bool>> deleteUser(String id) async {
     try {
       await _collection.doc(id).delete();
-      return true;
+      return Success(true);
     } catch (e) {
-      return false;
+      return Error(e.toString());
     }
   }
 
-  static Future<AppUser?> register({required AppUser user}) async {
+  static Future<ResuletFirebase<AppUser>> register({
+    required AppUser user,
+  }) async {
     try {
       final UserCredential credential = await FirebaseAuth.instance
           .createUserWithEmailAndPassword(
@@ -47,16 +50,21 @@ abstract class AppFirebaseAuth {
             password: user.password ?? "",
           );
       user.id = credential.user!.uid;
-      await addUser(user);
-      return user;
+      var res = await addUser(user);
+      switch (res) {
+        case Success<AppUser>():
+          return Success(user);
+        case Error<AppUser>():
+          return Error("Error from store the user on database");
+      }
     } on FirebaseAuthException catch (e) {
-      return null;
+      return Error(e.toString());
     } catch (e) {
-      return null;
+      return Error(e.toString());
     }
   }
 
-  static Future<bool> logIn({
+  static Future<ResuletFirebase<bool>> logIn({
     required String email,
     required String password,
   }) async {
@@ -65,11 +73,11 @@ abstract class AppFirebaseAuth {
         email: email,
         password: password,
       );
-      return true;
+      return Success(true);
     } on FirebaseAuthException catch (e) {
-      return false;
+      return Error(e.toString());
     } catch (e) {
-      return false;
+      return Error(e.toString());
     }
   }
 }

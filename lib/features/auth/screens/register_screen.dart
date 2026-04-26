@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:tasky/core/network/resulet_firebase.dart';
 import 'package:tasky/core/utils/validator_app.dart';
 import 'package:tasky/core/widgets/app_dialog.dart';
 import 'package:tasky/features/auth/data/firebase/app_firebase_auth.dart';
@@ -171,17 +172,25 @@ class RegisterScreen extends StatelessWidget {
   void register({required AppUser user, required BuildContext context}) async {
     AppDialog.showLoadingUi(context);
 
-    AppUser? resulte = await AppFirebaseAuth.register(user: user);
+    ResuletFirebase<AppUser> resulte = await AppFirebaseAuth.register(
+      user: user,
+    );
     if (!context.mounted) return;
     Navigator.of(context).pop();
 
-    if (resulte != null) {
-      Navigator.of(context).pop();
-    } else {
-      AppDialog.showErrorUi(
-        context: context,
-        error: "from firebase Auth , please try agine",
-      );
+    switch (resulte) {
+      case Success<AppUser>():
+        Navigator.of(context).pop();
+      case Error<AppUser>():
+        AppDialog.showErrorUi(context: context, error: resulte.error);
     }
+    // if (resulte != null) {
+    //   Navigator.of(context).pop();
+    // } else {
+    // AppDialog.showErrorUi(
+    //   context: context,
+    //   error: "from firebase Auth , please try agine",
+    // );
+    // }
   }
 }
