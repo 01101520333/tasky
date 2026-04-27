@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:tasky/features/auth/screens/log_in_screen.dart';
-import 'package:tasky/features/auth/screens/register_screen.dart';
+import 'package:tasky/features/auth/view/screens/log_in_screen.dart';
+import 'package:tasky/features/auth/view/screens/register_screen.dart';
 import 'package:tasky/features/home/screens/home_screen.dart';
 import 'package:tasky/features/onboarding/screens/onboarding_screen.dart';
 import 'package:tasky/features/onboarding/screens/splash_screen.dart';
