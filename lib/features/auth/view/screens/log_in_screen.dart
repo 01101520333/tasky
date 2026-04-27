@@ -7,7 +7,7 @@ import 'package:tasky/features/auth/view/widgets/matreial_button_widget.dart';
 import 'package:tasky/features/auth/view/widgets/state_user_auth.dart';
 import 'package:tasky/features/auth/view/widgets/text_form_field_widget.dart';
 import 'package:tasky/features/auth/view_model/auth_cubit.dart';
-import 'package:tasky/features/home/screens/home_screen.dart';
+import 'package:tasky/features/home/view/screens/home_screen.dart';
 
 class LogInScreen extends StatefulWidget {
   LogInScreen({super.key});
