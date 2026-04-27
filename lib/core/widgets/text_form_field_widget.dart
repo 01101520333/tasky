@@ -20,7 +20,6 @@ class TextFormFieldWidget extends StatelessWidget {
       controller: controller,
       onTap: onTap,
       validator: validator,
-
       decoration: InputDecoration(
         filled: true,
         fillColor: Color(0xffEFEFEF),

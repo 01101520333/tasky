@@ -3,7 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:tasky/core/utils/assets_icons.dart';
 import 'package:tasky/core/utils/assets_images.dart';
 import 'package:tasky/core/utils/colors_app.dart';
+import 'package:tasky/core/utils/validator_app.dart';
+import 'package:tasky/core/widgets/text_form_field_widget.dart';
 import 'package:tasky/features/auth/view/screens/log_in_screen.dart';
+import 'package:tasky/features/home/view/widgets/bottom_sheet_add_task.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -46,7 +49,12 @@ class HomeScreen extends StatelessWidget {
       body: EmptyHomeScreen(),
 
       floatingActionButton: FloatingActionButton(
-        onPressed: () {},
+        onPressed: () {
+          showModalBottomSheet(
+            context: context,
+            builder: (context) => BottomSheetAddTask(),
+          );
+        },
         backgroundColor: Color(0xff24252C),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadiusGeometry.circular(30),
