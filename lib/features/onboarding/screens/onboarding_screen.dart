@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import 'package:tasky/core/utils/assets_images.dart';
 import 'package:tasky/core/utils/colors_app.dart';
-import 'package:tasky/features/auth/screens/log_in_screen.dart';
+import 'package:tasky/features/auth/view/screens/log_in_screen.dart';
 
 class OnboardingScreen extends StatefulWidget {
   OnboardingScreen({super.key});
