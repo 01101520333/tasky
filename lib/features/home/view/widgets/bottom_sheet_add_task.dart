@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:tasky/core/utils/assets_icons.dart';
 import 'package:tasky/core/utils/validator_app.dart';
 import 'package:tasky/core/widgets/text_form_field_widget.dart';
+import 'package:tasky/features/home/view/widgets/selected_task_priority.dart';
 
 class BottomSheetAddTask extends StatefulWidget {
   const BottomSheetAddTask({super.key});
@@ -79,7 +80,19 @@ class _BottomSheetAddTaskState extends State<BottomSheetAddTask> {
 
               SizedBox(width: 12),
 
-              _IconAddTask(imagePath: AssetsIcons.priorityIcon, onTap: () {}),
+              _IconAddTask(
+                imagePath: AssetsIcons.priorityIcon,
+                onTap: () {
+                  showDialog(
+                    context: context,
+                    builder: (context) => SelectedTaskPriority(
+                      callBackPriority: (priority) {
+                        selectedPriority = priority;
+                      },
+                    ),
+                  );
+                },
+              ),
 
               Spacer(),
 
