@@ -1,7 +1,13 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
+import 'package:tasky/core/network/resulet_firebase.dart';
 import 'package:tasky/core/utils/assets_icons.dart';
 import 'package:tasky/core/utils/validator_app.dart';
+import 'package:tasky/core/widgets/app_dialog.dart';
 import 'package:tasky/core/widgets/text_form_field_widget.dart';
+import 'package:tasky/features/home/data/firebase/home_firebase.dart';
+import 'package:tasky/features/home/data/models/app_task_model.dart';
 import 'package:tasky/features/home/view/widgets/selected_task_priority.dart';
 
 class BottomSheetAddTask extends StatefulWidget {
@@ -12,8 +18,8 @@ class BottomSheetAddTask extends StatefulWidget {
 }
 
 class _BottomSheetAddTaskState extends State<BottomSheetAddTask> {
-  late final DateTime selectedDate;
-  late final int selectedPriority;
+  late DateTime selectedDate;
+  late int selectedPriority;
   var title = TextEditingController();
   var description = TextEditingController();
 
@@ -57,7 +63,7 @@ class _BottomSheetAddTaskState extends State<BottomSheetAddTask> {
 
           TextFormFieldWidget(
             hintText: "Enter task description",
-            controller: title,
+            controller: description,
             validator: ValidatorApp.validateName,
           ),
 
@@ -96,12 +102,40 @@ class _BottomSheetAddTaskState extends State<BottomSheetAddTask> {
 
               Spacer(),
 
-              _IconAddTask(imagePath: AssetsIcons.sendIcon, onTap: () {}),
+              _IconAddTask(
+                imagePath: AssetsIcons.sendIcon,
+                onTap: () async {
+                  AppTaskModel task = AppTaskModel(
+                    title: title.text,
+                    description: description.text,
+                    date: selectedDate,
+                    priority: selectedPriority,
+                  );
+                  await addTask(task);
+                },
+              ),
             ],
           ),
         ],
       ),
     );
+  }
+
+  Future<void> addTask(AppTaskModel task) async {
+    AppDialog.showLoadingUi(context);
+    final ResuletFirebase<AppTaskModel> resulte = await HomeFirebase.addTask(
+      task,
+    );
+    log("query is done");
+    if (!context.mounted) return;
+    Navigator.of(context).pop();
+    log("pop is done");
+    switch (resulte) {
+      case Success<AppTaskModel>():
+        Navigator.of(context).pop();
+      case Error<AppTaskModel>():
+        AppDialog.showErrorUi(context: context, error: resulte.error);
+    }
   }
 }
 

@@ -28,14 +28,14 @@ class AppTaskModel {
   // to json
 
   Map<String, dynamic> toJson() {
+    final normalDate = DateTime(date!.year, date!.month, date!.day);
     return {
       "title": title,
       "id": id,
       "description": description,
       "priority": priority,
-      "date":
-          date?.millisecondsSinceEpoch ?? DateTime.now().millisecondsSinceEpoch,
-      "isDone": isDone,
+      "date": normalDate.millisecondsSinceEpoch,
+      "isDone": false,
     };
   }
 }
