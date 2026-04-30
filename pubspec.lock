@@ -49,6 +49,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.13.1"
+  bloc:
+    dependency: transitive
+    description:
+      name: bloc
+      sha256: a48653a82055a900b88cd35f92429f068c5a8057ae9b136d197b3d56c57efb81
+      url: "https://pub.dev"
+    source: hosted
+    version: "9.2.0"
   boolean_selector:
     dependency: transitive
     description:
@@ -137,6 +145,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.0.9"
+  date_picker_timeline:
+    dependency: "direct main"
+    description:
+      name: date_picker_timeline
+      sha256: b99308cd224ca42900aa3ba2a75213c8deff6edee35fc18905a7834e8b0d7e70
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.2.7"
   fake_async:
     dependency: transitive
     description:
@@ -206,6 +222,14 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
+  flutter_bloc:
+    dependency: "direct main"
+    description:
+      name: flutter_bloc
+      sha256: cf51747952201a455a1c840f8171d273be009b932c75093020f9af64f2123e38
+      url: "https://pub.dev"
+    source: hosted
+    version: "9.1.1"
   flutter_launcher_icons:
     dependency: "direct dev"
     description:
@@ -272,6 +296,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "4.8.0"
+  intl:
+    dependency: transitive
+    description:
+      name: intl
+      sha256: "3df61194eb431efc39c4ceba583b95633a403f46c9fd341e550ce0bfa50e9aa5"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.20.2"
   json_annotation:
     dependency: transitive
     description:
@@ -336,6 +368,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.17.0"
+  nested:
+    dependency: transitive
+    description:
+      name: nested
+      sha256: "03bac4c528c64c95c722ec99280375a6f2fc708eec17c7b3f07253b626cd2a20"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.0.0"
   path:
     dependency: transitive
     description:
@@ -368,6 +408,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "6.5.0"
+  provider:
+    dependency: transitive
+    description:
+      name: provider
+      sha256: "4e82183fa20e5ca25703ead7e05de9e4cceed1fbd1eadc1ac3cb6f565a09f272"
+      url: "https://pub.dev"
+    source: hosted
+    version: "6.1.5+1"
   sky_engine:
     dependency: transitive
     description: flutter

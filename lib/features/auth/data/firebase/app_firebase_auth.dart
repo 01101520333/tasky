@@ -22,7 +22,6 @@ abstract class AppFirebaseAuth {
   }
 
   static Future<ResuletFirebase<AppUser>> updateUser(AppUser user) async {
-    await _collection.doc(user.id).update(user.toJson());
     try {
       await _collection.doc(user.id).update(user.toJson());
       return Success(user);
