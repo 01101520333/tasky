@@ -1,18 +1,14 @@
 import 'package:date_picker_timeline/date_picker_widget.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tasky/core/network/resulet_firebase.dart';
 import 'package:tasky/core/utils/assets_icons.dart';
-import 'package:tasky/core/utils/assets_images.dart';
-import 'package:tasky/core/utils/colors_app.dart';
-import 'package:tasky/core/utils/validator_app.dart';
-import 'package:tasky/core/widgets/text_form_field_widget.dart';
 import 'package:tasky/features/auth/view/screens/log_in_screen.dart';
 import 'package:tasky/features/home/data/firebase/home_firebase.dart';
 import 'package:tasky/features/home/data/models/app_task_model.dart';
 import 'package:tasky/features/home/view/widgets/bottom_sheet_add_task.dart';
-import 'package:tasky/features/home/view_model/home_cubit.dart';
+import 'package:tasky/features/home/view/widgets/empty_home_section.dart';
+import 'package:tasky/features/home/view/widgets/home_section.dart';
 
 class HomeScreen extends StatefulWidget {
   HomeScreen({super.key});
@@ -25,6 +21,8 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   List<AppTaskModel> tasks = [];
   bool isLoading = false;
+  DateTime selectedDate = DateTime.now();
+  bool isDeleted = false;
 
   @override
   void initState() {
@@ -66,22 +64,54 @@ class _HomeScreenState extends State<HomeScreen> {
         ),
       ),
 
-      body: isLoading
-          ? Center(child: CircularProgressIndicator())
-          : (tasks.isEmpty
-                ? EmptyHomeSection()
-                : HomeSection(
-                    tasks: tasks,
-                    onDateChange: (date) {
-                      getTasks(date);
-                    },
-                  )),
+      body: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 16.0),
+        child: Column(
+          children: [
+            SizedBox(height: 20),
+
+            DatePicker(
+              DateTime.now(),
+              initialSelectedDate: DateTime.now(),
+              selectionColor: Colors.black,
+              selectedTextColor: Colors.white,
+              height: 100,
+              onDateChange: (date) {
+                getTasks(date);
+                selectedDate = date;
+              },
+            ),
+
+            isLoading
+                ? Center(child: CircularProgressIndicator())
+                : (tasks.isEmpty
+                      ? EmptyHomeSection()
+                      : HomeSection(tasks: tasks)),
+          ],
+        ),
+      ),
 
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           showModalBottomSheet(
             context: context,
-            builder: (context) => BottomSheetAddTask(),
+            builder: (context) => BottomSheetAddTask(
+              notifyPerent: (dateTask) {
+                final newSelectedDate = DateTime(
+                  selectedDate.year,
+                  selectedDate.month,
+                  selectedDate.day,
+                );
+                final newDateTask = DateTime(
+                  dateTask.year,
+                  dateTask.month,
+                  dateTask.day,
+                );
+                if (newDateTask == newSelectedDate) {
+                  getTasks(selectedDate);
+                }
+              },
+            ),
           );
         },
         backgroundColor: Color(0xff24252C),
@@ -95,6 +125,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   Future<void> getTasks(DateTime date) async {
     isLoading = true;
+    setState(() {});
     final resulte = await HomeFirebase.getTasks(date);
     switch (resulte) {
       case Success<List<AppTaskModel>>():
@@ -105,97 +136,5 @@ class _HomeScreenState extends State<HomeScreen> {
         tasks = [];
     }
     setState(() {});
-  }
-}
-
-class EmptyHomeSection extends StatelessWidget {
-  const EmptyHomeSection({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 24.0),
-      child: Column(
-        children: [
-          SizedBox(height: 100),
-          Image.asset(AssetsImages.emptyScreenImage),
-          SizedBox(height: 5),
-          Text(
-            "What do you want to do today?",
-            style: TextStyle(
-              fontSize: 20,
-              fontWeight: .w400,
-              color: ColorsApp.textColor,
-            ),
-          ),
-          SizedBox(height: 10),
-          Text(
-            "Tap + to add your tasks",
-            style: TextStyle(
-              fontSize: 16,
-              fontWeight: .w400,
-              color: Color(0xff404147),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-class HomeSection extends StatelessWidget {
-  HomeSection({super.key, required this.tasks, this.onDateChange});
-  List<AppTaskModel> tasks;
-  void Function(DateTime date)? onDateChange;
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      spacing: 10,
-      children: [
-        DatePicker(
-          DateTime.now(),
-          initialSelectedDate: DateTime.now(),
-          selectionColor: Colors.black,
-          selectedTextColor: Colors.white,
-          height: 100,
-          onDateChange: onDateChange,
-        ),
-
-        Expanded(
-          child: ListView.builder(
-            padding: EdgeInsets.symmetric(horizontal: 16),
-            itemCount: tasks.length,
-            itemBuilder: (context, index) => ItemTaskWidget(task: tasks[index]),
-          ),
-        ),
-      ],
-    );
-  }
-}
-
-class ItemTaskWidget extends StatelessWidget {
-  ItemTaskWidget({super.key, required this.task});
-  AppTaskModel task;
-
-  @override
-  Widget build(BuildContext context) {
-    return Card(
-      color: Color(0xff5F33E1),
-      child: ListTile(
-        leading: Text(
-          task.priority.toString(),
-          style: TextStyle(color: Colors.white),
-        ), // Text
-        trailing: Text(
-          task.date.toString(),
-          style: TextStyle(color: Colors.white),
-        ), // Text
-        title: Text(task.title ?? "", style: TextStyle(color: Colors.white)),
-        subtitle: Text(
-          task.description ?? "",
-          style: TextStyle(color: Colors.white),
-        ), // Text
-      ), // ListTile
-    ); // Card
   }
 }

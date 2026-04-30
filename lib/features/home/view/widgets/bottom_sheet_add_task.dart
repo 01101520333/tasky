@@ -11,7 +11,8 @@ import 'package:tasky/features/home/data/models/app_task_model.dart';
 import 'package:tasky/features/home/view/widgets/selected_task_priority.dart';
 
 class BottomSheetAddTask extends StatefulWidget {
-  const BottomSheetAddTask({super.key});
+  const BottomSheetAddTask({super.key, required this.notifyPerent});
+  final Function(DateTime selectedDate) notifyPerent;
 
   @override
   State<BottomSheetAddTask> createState() => _BottomSheetAddTaskState();
@@ -112,6 +113,7 @@ class _BottomSheetAddTaskState extends State<BottomSheetAddTask> {
                     priority: selectedPriority,
                   );
                   await addTask(task);
+                  widget.notifyPerent(selectedDate);
                 },
               ),
             ],
