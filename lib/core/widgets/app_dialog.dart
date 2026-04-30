@@ -5,9 +5,9 @@ abstract class AppDialog {
   static void showLoadingUi(BuildContext context) {
     showDialog(
       context: context,
-      barrierDismissible: false,
+      // barrierDismissible: false,
       builder: (context) => PopScope(
-        canPop: false,
+        // canPop: false,
         child: AlertDialog(
           backgroundColor: ColorsApp.backgroundColor,
           content: SizedBox(
